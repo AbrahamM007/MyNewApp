@@ -10,7 +10,6 @@ import UserUtils from './utils/UserUtils';
 // Import screens
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
-import HomeScreen from './screens/HomeScreen';
 import CommunityScreen from './screens/CommunityScreen';
 import EventsScreen from './screens/EventsScreen';
 import MessagingScreen from './screens/MessagingScreen';
@@ -81,7 +80,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Auth" component={AuthNavigator} />
-        <Stack.Screen name="Main" component={MainNavigator} />
+        <Stack.Screen name="MainApp" component={MainNavigator} />
       </Stack.Navigator>
     </NavigationContainer>
   );

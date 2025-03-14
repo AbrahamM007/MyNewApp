@@ -57,7 +57,7 @@ const RegisterScreen = ({ navigation }) => {
         // Navigate to main app
         navigation.reset({
           index: 0,
-          routes: [{ name: 'Main' }],  // This is correct in your current code
+          routes: [{ name: 'Main' }],
         });
       } else {
         Alert.alert('Registration Failed', result.message || 'Failed to create account');

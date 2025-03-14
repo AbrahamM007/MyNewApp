@@ -426,9 +426,12 @@ const DataService = {
       console.error('Error sending message:', error);
       return { success: false, message: 'Failed to send message' };
     }
-  },
-  
-  // User profile methods
+  }
+};
+
+export default DataService;
+
+// User profile methods
   updateProfilePicture: async (imageUri) => {
     try {
       const currentUser = await AuthService.getCurrentUser();
@@ -462,7 +465,4 @@ const DataService = {
       console.error('Error updating profile picture:', error);
       return { success: false, message: 'Failed to update profile picture' };
     }
-  }
-};
-
-export default DataService;
+  },

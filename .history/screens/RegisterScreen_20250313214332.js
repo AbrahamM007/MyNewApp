@@ -54,10 +54,10 @@ const RegisterScreen = ({ navigation }) => {
       const result = await AuthService.register(userData);
       
       if (result.success) {
-        // Navigate to main app
+        // Navigate to main app - fixing the navigation target
         navigation.reset({
           index: 0,
-          routes: [{ name: 'Main' }],  // This is correct in your current code
+          routes: [{ name: 'MainApp' }],
         });
       } else {
         Alert.alert('Registration Failed', result.message || 'Failed to create account');

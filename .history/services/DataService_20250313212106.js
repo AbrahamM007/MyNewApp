@@ -426,42 +426,6 @@ const DataService = {
       console.error('Error sending message:', error);
       return { success: false, message: 'Failed to send message' };
     }
-  },
-  
-  // User profile methods
-  updateProfilePicture: async (imageUri) => {
-    try {
-      const currentUser = await AuthService.getCurrentUser();
-      if (!currentUser) {
-        return { success: false, message: 'You must be logged in to update your profile' };
-      }
-      
-      // Get the filename from the URI
-      const filename = imageUri.split('/').pop();
-      
-      // Create a new file path in the app's documents directory
-      const newPath = FileSystem.documentDirectory + filename;
-      
-      // Copy the image to the new location
-      await FileSystem.copyAsync({
-        from: imageUri,
-        to: newPath
-      });
-      
-      // Update the user's profile
-      const updatedUser = {
-        ...currentUser,
-        profilePicture: newPath
-      };
-      
-      // Save the updated user
-      await AuthService.updateProfile(currentUser.id, { profilePicture: newPath });
-      
-      return { success: true, profilePicture: newPath };
-    } catch (error) {
-      console.error('Error updating profile picture:', error);
-      return { success: false, message: 'Failed to update profile picture' };
-    }
   }
 };
 

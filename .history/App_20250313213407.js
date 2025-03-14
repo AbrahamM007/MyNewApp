@@ -5,12 +5,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import AuthService from './services/AuthService';
 import DataService from './services/DataService';
-import UserUtils from './utils/UserUtils';
 
 // Import screens
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
-import HomeScreen from './screens/HomeScreen';
 import CommunityScreen from './screens/CommunityScreen';
 import EventsScreen from './screens/EventsScreen';
 import MessagingScreen from './screens/MessagingScreen';
@@ -63,6 +61,10 @@ const MainNavigator = () => (
 );
 
 export default function App() {
+  // Add this import at the top with your other imports
+  import UserUtils from './utils/UserUtils';
+  
+  // In your useEffect where you initialize the app:
   useEffect(() => {
     // Initialize data services
     const initializeApp = async () => {

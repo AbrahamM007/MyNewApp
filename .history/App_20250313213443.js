@@ -10,7 +10,6 @@ import UserUtils from './utils/UserUtils';
 // Import screens
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
-import HomeScreen from './screens/HomeScreen';
 import CommunityScreen from './screens/CommunityScreen';
 import EventsScreen from './screens/EventsScreen';
 import MessagingScreen from './screens/MessagingScreen';

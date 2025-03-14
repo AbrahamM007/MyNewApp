@@ -5,7 +5,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import AuthService from './services/AuthService';
 import DataService from './services/DataService';
-import UserUtils from './utils/UserUtils';
 
 // Import screens
 import LoginScreen from './screens/LoginScreen';
@@ -68,10 +67,6 @@ export default function App() {
     const initializeApp = async () => {
       await AuthService.initialize();
       await DataService.initialize();
-      
-      // Create default account
-      const defaultAccount = await UserUtils.createDefaultAccount();
-      console.log('Default account credentials:', defaultAccount.credentials);
     };
     
     initializeApp();

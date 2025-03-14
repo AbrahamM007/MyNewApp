@@ -128,11 +128,6 @@ const DataService = {
         return { success: false, message: 'Post not found' };
       }
       
-      // Initialize comments array if it doesn't exist
-      if (!posts[postIndex].comments) {
-        posts[postIndex].comments = [];
-      }
-      
       const newComment = {
         id: `comment_${Date.now()}`,
         content,
@@ -159,39 +154,6 @@ const DataService = {
     } catch (error) {
       console.error('Error reading clubs:', error);
       return [];
-    }
-  },
-  
-  createClub: async (clubData) => {
-    try {
-      const currentUser = await AuthService.getCurrentUser();
-      if (!currentUser) {
-        return { success: false, message: 'You must be logged in to create clubs' };
-      }
-      
-      const clubs = await DataService.getClubs();
-      
-      const newClub = {
-        id: `club_${Date.now()}`,
-        name: clubData.name,
-        description: clubData.description,
-        meetingDay: clubData.meetingDay,
-        meetingTime: clubData.meetingTime,
-        location: clubData.location,
-        founder: currentUser.name,
-        founderId: currentUser.id,
-        members: 1,
-        membersList: [currentUser.id],
-        createdAt: new Date().toISOString()
-      };
-      
-      clubs.unshift(newClub);
-      await FileSystem.writeAsStringAsync(CLUBS_FILE, JSON.stringify(clubs));
-      
-      return { success: true, club: newClub };
-    } catch (error) {
-      console.error('Error creating club:', error);
-      return { success: false, message: 'Failed to create club' };
     }
   },
   
@@ -425,42 +387,6 @@ const DataService = {
     } catch (error) {
       console.error('Error sending message:', error);
       return { success: false, message: 'Failed to send message' };
-    }
-  },
-  
-  // User profile methods
-  updateProfilePicture: async (imageUri) => {
-    try {
-      const currentUser = await AuthService.getCurrentUser();
-      if (!currentUser) {
-        return { success: false, message: 'You must be logged in to update your profile' };
-      }
-      
-      // Get the filename from the URI
-      const filename = imageUri.split('/').pop();
-      
-      // Create a new file path in the app's documents directory
-      const newPath = FileSystem.documentDirectory + filename;
-      
-      // Copy the image to the new location
-      await FileSystem.copyAsync({
-        from: imageUri,
-        to: newPath
-      });
-      
-      // Update the user's profile
-      const updatedUser = {
-        ...currentUser,
-        profilePicture: newPath
-      };
-      
-      // Save the updated user
-      await AuthService.updateProfile(currentUser.id, { profilePicture: newPath });
-      
-      return { success: true, profilePicture: newPath };
-    } catch (error) {
-      console.error('Error updating profile picture:', error);
-      return { success: false, message: 'Failed to update profile picture' };
     }
   }
 };

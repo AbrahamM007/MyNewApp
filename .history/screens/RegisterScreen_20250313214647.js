@@ -53,14 +53,15 @@ const RegisterScreen = ({ navigation }) => {
       
       const result = await AuthService.register(userData);
       
+      // In the handleRegister function
       if (result.success) {
-        // Navigate to main app
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'Main' }],  // This is correct in your current code
-        });
+      // Navigate to main app
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Main' }],
+      });
       } else {
-        Alert.alert('Registration Failed', result.message || 'Failed to create account');
+      Alert.alert('Registration Failed', result.message || 'Failed to create account');
       }
     } catch (error) {
       console.error('Registration error:', error);
