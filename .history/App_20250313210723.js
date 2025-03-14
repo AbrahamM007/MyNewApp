@@ -9,7 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import SplashScreen from './screens/SplashScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
-import CommunityScreen from './screens/CommunityScreen';
+import CommunityScreen from './screens/CommunityScreen';  // Changed from HomeScreen
 import ClubsScreen from './screens/ClubsScreen';
 import EventsScreen from './screens/EventsScreen';
 import MessagingScreen from './screens/MessagingScreen';
@@ -85,15 +85,18 @@ const App = () => {
   };
 
   useEffect(() => {
+    // Just call bootstrapAsync directly - AsyncStorage doesn't have addEventListener
     bootstrapAsync();
   }, []);
+
+  if (isLoading) {
+    return <SplashScreen />;
+  }
 
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {isLoading ? (
-          <Stack.Screen name="Splash" component={SplashScreen} />
-        ) : userToken == null ? (
+        {userToken == null ? (
           <Stack.Screen 
             name="Auth" 
             component={AuthNavigator} 

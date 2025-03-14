@@ -9,7 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import SplashScreen from './screens/SplashScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
-import CommunityScreen from './screens/CommunityScreen';
+import HomeScreen from './screens/CommunityScreenScreen';
 import ClubsScreen from './screens/ClubsScreen';
 import EventsScreen from './screens/EventsScreen';
 import MessagingScreen from './screens/MessagingScreen';
@@ -46,8 +46,7 @@ const MainAppNavigator = () => {
         headerShown: false,
       })}
     >
-      {/* Home screen using CommunityScreen component */}
-      <Tab.Screen name="Home" component={CommunityScreen} />
+      <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Clubs" component={ClubsScreen} />
       <Tab.Screen name="Events" component={EventsScreen} />
       <Tab.Screen name="Messages" component={MessagingScreen} />
@@ -71,40 +70,33 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [userToken, setUserToken] = useState(null);
 
-  // Define bootstrapAsync before using it in useEffect
-  const bootstrapAsync = async () => {
-    try {
-      const userJson = await AsyncStorage.getItem('currentUser');
-      setUserToken(userJson ? JSON.parse(userJson) : null);
-    } catch (e) {
-      console.error('Failed to load user token', e);
-      setUserToken(null);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   useEffect(() => {
+    // Check if user is logged in
+    const bootstrapAsync = async () => {
+      try {
+        const userJson = await AsyncStorage.getItem('currentUser');
+        setUserToken(userJson ? JSON.parse(userJson) : null);
+      } catch (e) {
+        console.error('Failed to load user token', e);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
     bootstrapAsync();
   }, []);
+
+  if (isLoading) {
+    return <SplashScreen />;
+  }
 
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {isLoading ? (
-          <Stack.Screen name="Splash" component={SplashScreen} />
-        ) : userToken == null ? (
-          <Stack.Screen 
-            name="Auth" 
-            component={AuthNavigator} 
-            options={{ animationEnabled: false }}
-          />
+        {userToken == null ? (
+          <Stack.Screen name="Auth" component={AuthNavigator} />
         ) : (
-          <Stack.Screen 
-            name="MainApp" 
-            component={MainAppNavigator} 
-            options={{ animationEnabled: false }}
-          />
+          <Stack.Screen name="MainApp" component={MainAppNavigator} />
         )}
       </Stack.Navigator>
     </NavigationContainer>

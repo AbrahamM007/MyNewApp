@@ -9,7 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import SplashScreen from './screens/SplashScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
-import CommunityScreen from './screens/CommunityScreen';
+import CommunityScreen from './screens/CommunityScreen';  // Changed from HomeScreen
 import ClubsScreen from './screens/ClubsScreen';
 import EventsScreen from './screens/EventsScreen';
 import MessagingScreen from './screens/MessagingScreen';
@@ -71,7 +71,21 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [userToken, setUserToken] = useState(null);
 
-  // Define bootstrapAsync before using it in useEffect
+  // Add a listener for authentication state changes
+  useEffect(() => {
+    const authListener = AsyncStorage.addEventListener('auth_change', bootstrapAsync);
+    
+    // Initial check
+    bootstrapAsync();
+    
+    return () => {
+      if (authListener?.remove) {
+        authListener.remove();
+      }
+    };
+  }, []);
+  
+  // Extract the bootstrap logic to its own function
   const bootstrapAsync = async () => {
     try {
       const userJson = await AsyncStorage.getItem('currentUser');
@@ -84,16 +98,14 @@ const App = () => {
     }
   };
 
-  useEffect(() => {
-    bootstrapAsync();
-  }, []);
+  if (isLoading) {
+    return <SplashScreen />;
+  }
 
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {isLoading ? (
-          <Stack.Screen name="Splash" component={SplashScreen} />
-        ) : userToken == null ? (
+        {userToken == null ? (
           <Stack.Screen 
             name="Auth" 
             component={AuthNavigator} 
