@@ -15,7 +15,6 @@ import CommunityScreen from './screens/CommunityScreen';
 import EventsScreen from './screens/EventsScreen';
 import MessagingScreen from './screens/MessagingScreen';
 import ProfileScreen from './screens/ProfileScreen';
-import SplashScreen from './screens/SplashScreen';
 
 // Create navigators
 const Tab = createBottomTabNavigator();
@@ -80,6 +79,10 @@ export default function App() {
 
   return (
     <NavigationContainer>
+      // In your App.js file, add the SplashScreen to your navigation
+      import SplashScreen from './screens/SplashScreen';
+      
+      // Then in your Stack.Navigator:
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Splash" component={SplashScreen} />
         <Stack.Screen name="Auth" component={AuthNavigator} />

@@ -7,6 +7,7 @@ import {
   Animated, 
   Dimensions 
 } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import AuthService from '../services/AuthService';
 import UserUtils from '../utils/UserUtils';
 
